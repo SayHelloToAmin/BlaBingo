@@ -1,16 +1,9 @@
 from pyrogram.types import Message
 from pyrogram import Client
-from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-ADMIN_STATUS = (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
-# global functions ============
-async def validate_user_status(chat_id: int, user_id: int, client: Client) -> bool:
-    """validate user status to be admin else raise error"""
-    user = await client.get_chat_member(chat_id, user_id)
-    if user.status in ADMIN_STATUS:
-        return True
-    return False
+from utils.group_mode import validate_user_status
+import DB
 
 
 # command: /mode (gp) => used in groups
@@ -32,12 +25,13 @@ async def _inline_to_pv_keybaord(chat_id: int) -> InlineKeyboardMarkup:
 
 # commands /start (pv) => have chat_id with it too
 async def set_mode_type_pv(client: Client, message: Message, extra_args: str):
-    """when admin clicks on the 'go to private' this function will run / extra_args is chatid here"""
+    """when admin clicks on the 'go to private' and starts the robot this function will run & extra_args is chatid
+    here """
     chat_id = int(extra_args)
     if not await validate_user_status(chat_id=chat_id, user_id=message.from_user.id, client=client):
         return await message.reply('admin nisti')
 
-    current_group_mode = '1'
+    current_group_mode = DB.showgpmode(chat_id)
     inline_markup = await _inline_set_mode_keyboard(current_group_mode, chat_id)
     await message.reply('entekhab konid', reply_markup=inline_markup)
 
@@ -45,8 +39,8 @@ async def set_mode_type_pv(client: Client, message: Message, extra_args: str):
 async def _inline_set_mode_keyboard(current_mode: str, chat_id: int) -> InlineKeyboardMarkup:
     """current mode of the group will be marked with emoji"""
     inline_keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton('slow' if current_mode != '1' else 'slow ⭐️', callback_data=f'mode#1#{chat_id}')],
-        [InlineKeyboardButton('normal' if current_mode != '2' else 'normal ⭐️', callback_data=f'mode#2#{chat_id}')],
-        [InlineKeyboardButton('fast' if current_mode != '3' else 'fast ⭐️', callback_data=f'mode#3#{chat_id}')]
+        [InlineKeyboardButton('slow' if current_mode != 1 else 'slow ⭐️', callback_data=f'mode#1#{chat_id}')],
+        [InlineKeyboardButton('normal' if current_mode != 2 else 'normal ⭐️', callback_data=f'mode#2#{chat_id}')],
+        [InlineKeyboardButton('fast' if current_mode != 3 else 'fast ⭐️', callback_data=f'mode#3#{chat_id}')]
     ])
     return inline_keyboard

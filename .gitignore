@@ -1,0 +1,8 @@
+
+*.xml
+*.pyc
+*.session-journal
+*.session
+*.iml
+Reyme.session
+Reyme.session-journal
