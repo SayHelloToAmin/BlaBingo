@@ -52,6 +52,7 @@ def Fastleraning(mode, chatid):
         db.commit()
     else:
         Cursor.execute("update groupss set fastlearning = %s where chatid = %s", (0, chatid))
+        db.commit()
 
 
 # ====================================== add message to database =====================================================
@@ -78,3 +79,22 @@ def isfastlearning(chatid):
         return True
     else:
         return False
+
+
+# =========================================== group mode reciver ======================================================
+
+# this function just return a number [1.2.3]
+
+def showgpmode(chatid):
+    Cursor.execute(f"SELECT choosenmode FROM groupss WHERE chatid = {chatid}")
+    Cloud = Cursor.fetchone()
+    Cloud = Cloud[0]
+    return Cloud
+
+# =========================================== chosenmode setter =======================================================
+
+# this function will set a new number for choosenmode param
+
+def setnewmode(chatid,newmode:int):
+    Cursor.execute("update groupss set choosenmode = %s where chatid = %s", (newmode, chatid))
+    db.commit()
