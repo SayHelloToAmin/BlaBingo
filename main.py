@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
-import tgcrypto
+
 # only from commands folder :
 from commands.Register import Handleregister
 from commands.fastlearn import enablefastlearning, checkfastlearning
@@ -9,10 +9,11 @@ from commands.start_pv import handle_start_command
 from callbacks.group_mode import set_mode_to_db
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import tgcrypto
 
 # only from DataBase file :
 import DB
-##
+from send_message import check_time_to_send
 from addmessage import managemessage
 
 scheduler = AsyncIOScheduler()
@@ -107,6 +108,6 @@ CMD | /register""")
 
 
 scheduler.add_job(checkfastlearning, "interval", minutes=3, args=[app])
-
+scheduler.add_job(check_time_to_send, 'interval', seconds=20, args=[app])
 scheduler.start()
 app.run()

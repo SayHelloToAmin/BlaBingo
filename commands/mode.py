@@ -3,6 +3,7 @@ from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from utils.group_mode import validate_user_status
+from utils.inline_markups import inline_set_mode_keyboard
 import DB
 
 
@@ -32,15 +33,7 @@ async def set_mode_type_pv(client: Client, message: Message, extra_args: str):
         return await message.reply('admin nisti')
 
     current_group_mode = DB.showgpmode(chat_id)
-    inline_markup = await _inline_set_mode_keyboard(current_group_mode, chat_id)
+    inline_markup = await inline_set_mode_keyboard(current_group_mode, chat_id)
     await message.reply('entekhab konid', reply_markup=inline_markup)
 
 
-async def _inline_set_mode_keyboard(current_mode: str, chat_id: int) -> InlineKeyboardMarkup:
-    """current mode of the group will be marked with emoji"""
-    inline_keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton('slow' if current_mode != 1 else 'slow ⭐️', callback_data=f'mode#1#{chat_id}')],
-        [InlineKeyboardButton('normal' if current_mode != 2 else 'normal ⭐️', callback_data=f'mode#2#{chat_id}')],
-        [InlineKeyboardButton('fast' if current_mode != 3 else 'fast ⭐️', callback_data=f'mode#3#{chat_id}')]
-    ])
-    return inline_keyboard
