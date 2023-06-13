@@ -1,4 +1,5 @@
 import random
+import asyncio
 
 from pyrogram import Client
 
@@ -25,8 +26,8 @@ async def check_time_to_send(client: Client):
                 final_text = await _initial_text_verb(choosen_message)
                 await _send_to_group(client, chat_id, final_text)
 
+                await asyncio.sleep(2)
                 group_counts[chat_id] = 0
-
 
 async def is_time_to_send(chat_id: int) -> bool:
     """if message count of a group exceed its minium this function will check group mode(slow, normal, fast)"""
