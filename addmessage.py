@@ -1,3 +1,6 @@
+
+import datetime
+
 groupcounts = {
     
 }
@@ -29,10 +32,11 @@ async def managemessage(text,chatid):
     print(chanceresult)
     if chanceresult:
         text2 = text.split()
+        registration_date = datetime.now().strftime("%Y-%m-%d")
         new_list = [word for word in text2 if isinstance(word, str) and not persian_regex_pattern.fullmatch(word)]
         if len(new_list) == 1:
             finaltext = " ".join(new_list)
-            recordmessage(chatid,finaltext)
+            recordmessage(chatid,finaltext,registration_date)
             print(finaltext)
         else:
             new_num = random.randint(1, len(new_list))
@@ -41,7 +45,7 @@ async def managemessage(text,chatid):
             finaltext = " ".join(new_list)
             output_str = finaltext.replace(' ', '-')
             print(output_str)
-            recordmessage(chatid,output_str)
+            recordmessage(chatid,output_str,registration_date)
     else:
         pass
     

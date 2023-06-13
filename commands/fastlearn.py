@@ -21,7 +21,7 @@ async def checkfastlearning(client):
     Cloud = []
     if currentfastlearning:
         for ke, val in currentfastlearning.items():
-            if (time.time() - val) >= 14:
+            if (time.time() - val) >= 5400:
                 Fastleraning(False, ke)
                 Cloud.append(ke)
                 await client.send_message(ke, """⌛️ | حالت **یادگیری سریع 'FastLearning'** از همین لحظه غیر فعال شد و ربات به حالت عادی برگشت!

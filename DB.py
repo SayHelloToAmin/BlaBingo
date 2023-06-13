@@ -59,9 +59,9 @@ def Fastleraning(mode, chatid):
 
 # this function will record text message in messages table
 
-def recordmessage(chatid, text):
+def recordmessage(chatid, text,time):
     try:
-        Cursor.execute("INSERT INTO messages (chatid,messages) VALUES (%s,%s)", (chatid, text))
+        Cursor.execute("INSERT INTO messages (chatid,messages,add_time) VALUES (%s,%s,%s)", (chatid, text,time))
         db.commit()
     except:
         print("error")
@@ -98,3 +98,14 @@ def showgpmode(chatid):
 def setnewmode(chatid,newmode:int):
     Cursor.execute("update groupss set choosenmode = %s where chatid = %s", (newmode, chatid))
     db.commit()
+    
+    
+    
+# =============================================== take messages from database =========================================
+
+# this function will return some lists inside of a tuple 
+
+def messagetaker(chatid,limit):
+    Cursor.execute("SELECT messages FROM messages where chatid = %s ORDER BY RAND() LIMIT %s",(chatid,limit))
+    Cloud = Cursor.fetchall()
+    return Cloud

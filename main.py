@@ -106,7 +106,7 @@ CMD | /help""")
 CMD | /register""")
 
 
-scheduler.add_job(checkfastlearning, "interval", seconds=20, args=[app])
+scheduler.add_job(checkfastlearning, "interval", minutes=3, args=[app])
 
 scheduler.start()
 app.run()
