@@ -44,7 +44,7 @@ callback_commands = {
 
 
 # message handler :
-@app.on_message(filters.group & filters.text)
+@app.on_message(filters.group & filters.text & filters.user )
 async def TextHandler(client, message):
     text = message.text.lower()
     print(text)
@@ -53,10 +53,12 @@ async def TextHandler(client, message):
         await Handleregister(message)
     else:
         if DB.CheckGroupReg(message.chat.id):
+            await check_time_to_send(client)
             if text in commands.keys():
                 await commands[text](client, message)
             else:
                 await managemessage(text, message.chat.id)
+                
         else:
             if text in commands.keys():
                 await message.reply("""‼️ | گروه شما همچنان در ربات ثبت نشده است و غیرقابل استفاده میباشد.
@@ -108,6 +110,6 @@ CMD | /register""")
 
 
 scheduler.add_job(checkfastlearning, "interval", minutes=3, args=[app])
-scheduler.add_job(check_time_to_send, 'interval', seconds=20, args=[app])
+# scheduler.add_job(check_time_to_send, 'interval', seconds=20, args=[app])
 scheduler.start()
 app.run()
