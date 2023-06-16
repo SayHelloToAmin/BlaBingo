@@ -5,41 +5,41 @@ from pyrogram import Client
 
 import DB
 from utils.send_exceptions import send_exception_to_support
-
+from addmessage import group_counts
 
 VERBS = ['یم', 'م', 'ه']
 
 
 async def check_time_to_send(client: Client):
-
     print('check time to send')
-    from addmessage import group_counts
     for chat_id, msg_count in group_counts.items():
         if msg_count > 10:
-            if await is_time_to_send(chat_id,msg_count):
+            if await is_time_to_send(chat_id, msg_count):
                 random_messages = DB.messagetaker(chatid=chat_id, limit=random.randint(3, 5))
 
                 choosen_message = await _convert_random_messages(random_messages)
                 final_text = await _initial_text_verb(choosen_message)
                 await _send_to_group(client, chat_id, final_text)
 
-                await asyncio.sleep(0.2)
+                await asyncio.sleep(0.72)
                 group_counts[chat_id] = 0
 
-async def is_time_to_send(chat_id: int,message_count) -> bool:
+
+async def is_time_to_send(chat_id: int, message_count) -> bool:
     mode = DB.showgpmode(chat_id)
-    if (message_count == 20 and mode == 3) or (message_count == 40 and mode == 2) or (message_count == 60 and mode == 1):
+    if (message_count == 20 and mode == 3) or (message_count == 40 and mode == 2) or (
+            message_count == 60 and mode == 1):
         return True
-    #chance of sending progress
-    if random.randint(1,5) == 3:
+    # chance of sending progress
+    if random.randint(1, 5) == 3:
         if mode == 1 and 45 < message_count < 60:
             return True
         elif mode == 2 and 30 < message_count < 40:
             return True
         elif mode == 3 and 10 < message_count < 20:
             return True
-    
     return False
+
 
 async def _convert_random_messages(random_messages: list) -> str:
     """choose messages from list of tuples of messages that taken from database and add them to one string"""
