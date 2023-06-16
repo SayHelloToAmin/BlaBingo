@@ -44,7 +44,7 @@ callback_commands = {
 
 
 # message handler :
-@app.on_message(filters.group & filters.text & filters.user )
+@app.on_message(filters.group & filters.text & ~filters.bot)
 async def TextHandler(client, message):
     text = message.text.lower()
     print(text)

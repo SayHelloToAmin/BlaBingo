@@ -4,8 +4,8 @@ import mysql.connector
 db = mysql.connector.connect(
     host='localhost',
     user="root",
-    password="amin1400",
-    database="blabingo",
+    password="0918",
+    database="database",
     # auth_plugin='mysql_native_password'
 
 )

@@ -13,6 +13,7 @@ VERBS = ['یم', 'م', 'ه']
 async def check_time_to_send(client: Client):
     print('check time to send')
     for chat_id, msg_count in group_counts.items():
+        print(msg_count)
         if msg_count > 10:
             if await is_time_to_send(chat_id, msg_count):
                 random_messages = DB.messagetaker(chatid=chat_id, limit=random.randint(3, 5))
