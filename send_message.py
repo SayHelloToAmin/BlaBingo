@@ -17,7 +17,7 @@ async def check_time_to_send(client: Client):
         print(msg_count)
         if msg_count > 10:
             if await is_time_to_send(chat_id, msg_count):
-                random_messages = DB.messagetaker(chatid=chat_id, limit=random.randint(3, 5))
+                random_messages = DB.messagetaker(chatid=chat_id, limit=random.randint(1, 3))
 
                 choosen_message = await _convert_random_messages(random_messages)
                 final_text = await _initial_text_verb(choosen_message)
@@ -48,7 +48,7 @@ async def _convert_random_messages(random_messages: list) -> str:
     choosen_messages = str()
     for messages in random_messages:
         msg = messages[0].split('-')
-        max_number_to_choose = random.randint(1, 3) if len(msg) >= 3 else 1
+        max_number_to_choose = random.randint(1, 3) if len(msg) >= 4 else 1
         msg = random.sample(msg, k=max_number_to_choose)
         msg = ' '.join(msg)
         choosen_messages += f'{msg} '
