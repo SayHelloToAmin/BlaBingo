@@ -61,10 +61,10 @@ def Fastleraning(mode, chatid):
 
 def recordmessage(chatid, text,time):
     try:
-        Cursor.execute("INSERT INTO messages (chatid,messages,add_time) VALUES (%s,%s,%s)", (chatid, text,time))
+        Cursor.execute("INSERT INTO messages (chatid,messages,add_date) VALUES (%s,%s,%s)", (chatid, text,time))
         db.commit()
-    except:
-        print("error")
+    except Exception as e:
+        print("error", e)
 
 
 # ======================================return fastlearning mode=====================================================

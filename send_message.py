@@ -2,6 +2,7 @@ import random
 import asyncio
 
 from pyrogram import Client
+import aiofiles
 
 import DB
 from utils.send_exceptions import send_exception_to_support
@@ -59,15 +60,17 @@ async def _initial_text_verb(sentence: str) -> str:
     words = sentence.split()
     verb_found = False
     for word in words:
-        for verb in VERBS:
-            if word.endswith(verb):
-                deleted_verb = words.pop(words.index(word))
-                words.append(deleted_verb)
-                verb_found = True
-                break
+        async with aiofiles.open('verbs.txt', 'r') as file:
+            async for verb in file:
+                if verb == words:
+                    deleted_verb = words.pop(words.index(word))
+                    words.append(deleted_verb)
+                    verb_found = True
+                    break
         if verb_found:
             break
     final_text = ' '.join(words)
+    print(final_text)
     return final_text
 
 

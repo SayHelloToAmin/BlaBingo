@@ -24,7 +24,7 @@ app = Client(
     'Reyme',
     api_id=6703845,
     api_hash="3eac821a6d1e0b0e2969ae0ad2f970ea",
-    bot_token="6158758706:AAEkCOBbA035j_0Fh6u1cZ4rjryX-k2GOXQ"
+    bot_token="6212115149:AAGxfRVOTTWsO15TKyeMHpaPYOT0LHBvZiU"
 )
 
 # commands group dictionary :
