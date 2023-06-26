@@ -11,7 +11,6 @@ from callbacks.group_mode import set_mode_to_db
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import tgcrypto
 
-# only from DataBase file :
 import DB
 from send_message import check_time_to_send
 from addmessage import managemessage
@@ -24,7 +23,7 @@ app = Client(
     'Reyme',
     api_id=6703845,
     api_hash="3eac821a6d1e0b0e2969ae0ad2f970ea",
-    bot_token="6212115149:AAGxfRVOTTWsO15TKyeMHpaPYOT0LHBvZiU"
+    bot_token="6158758706:AAEkCOBbA035j_0Fh6u1cZ4rjryX-k2GOXQ"
 )
 
 # commands group dictionary :
@@ -47,18 +46,17 @@ callback_commands = {
 @app.on_message(filters.group & filters.text & ~filters.bot)
 async def TextHandler(client, message):
     text = message.text.lower()
-    print(text)
+    # print(text)
     # check if user has send /register
     if text in ["/register", "/register@blabingobot"]:
         await Handleregister(message)
     else:
         if DB.CheckGroupReg(message.chat.id):
-            await check_time_to_send(client)
             if text in commands.keys():
                 await commands[text](client, message)
             else:
                 await managemessage(text, message.chat.id)
-                
+            await check_time_to_send(client, message.chat.id)
         else:
             if text in commands.keys():
                 await message.reply("""‼️ | گروه شما همچنان در ربات ثبت نشده است و غیرقابل استفاده میباشد.

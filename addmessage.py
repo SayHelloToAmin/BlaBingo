@@ -30,7 +30,7 @@ async def managemessage(text, chatid):
             chanceresult = True
         else:
             pass
-    print(chanceresult)
+    # print(chanceresult)
     if chanceresult:
         text2 = text.split()
         registration_date = datetime.now().strftime("%Y-%m-%d")
@@ -38,14 +38,17 @@ async def managemessage(text, chatid):
         if len(new_list) == 1:
             finaltext = " ".join(new_list)
             recordmessage(chatid, finaltext, registration_date)
-            print(finaltext)
+            # print(finaltext)
         else:
-            new_num = random.randint(1, len(new_list))
+            try:
+                new_num = random.randint(1, len(new_list))
+            except ValueError:
+                return None  # TODO: Error ValueError Raise Mishe
             new_list = random.sample(new_list, new_num)
             new_list = [elem for elem in new_list if len(elem) <= 9]
             finaltext = " ".join(new_list)
             output_str = finaltext.replace(' ', '-')
-            print(output_str)
+            # print(output_str)
             recordmessage(chatid, output_str, registration_date)
     else:
         pass
